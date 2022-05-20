@@ -1,0 +1,35 @@
+version: '3.4'
+
+services:
+  mytimetable:
+    image: ${DOCKER_REGISTRY-}mytimetable
+    build:
+      context: .
+      dockerfile: MyTimeTable/Dockerfile
+    depends_on:
+        - sqlserverService
+    networks:
+        - timetablenet
+    environment:
+        - ASPNETCORE_ENVIRONMENT=Development
+        - ASPNETCORE_URLS=https://+:443;http://+:80
+    ports:
+        - "80"
+        - "443"
+  sqlserverService:
+    image: mcr.microsoft.com/mssql/server:latest
+    hostname: sqlserverService
+    container_name: sqlserverService
+    environment:
+        ACCEPT_EULA: Y
+        SA_PASSWORD: Krolebord123!
+    volumes:
+        - ./data/mssql:/var/opt/mssql3
+    ports:
+        - 1433:1433
+    networks:
+        - timetablenet
+
+networks:
+    timetablenet:
+        driver: bridge
