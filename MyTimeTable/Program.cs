@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using MyTimeTable;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -14,6 +15,7 @@ using (var scope = app.Services.CreateScope())
 {
     await scope.ServiceProvider.GetRequiredService<MyTimeTableContext>().Database.MigrateAsync();
 }
+
 //await app.Services.GetRequiredService<MyTimeTableContext>().Database.MigrateAsync();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -28,10 +30,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllers();
-});
+app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 
 app.UseAuthorization();
 
