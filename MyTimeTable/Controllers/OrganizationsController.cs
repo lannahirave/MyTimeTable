@@ -23,13 +23,13 @@ public class OrganizationsController : ControllerBase
         var organizationsDtoRead = new List<OrganizationDtoRead>();
         foreach (var org in organizations)
         {
-            var faculty = await _context.Faculties.Where(c => c.OrganizationId == org.Id).ToListAsync();
+            var faculties = await _context.Faculties.Where(c => c.OrganizationId == org.Id).ToListAsync();
             organizationsDtoRead.Add(
                 new OrganizationDtoRead
                 {
                     Id = org.Id,
                     Name = org.Name,
-                    Faculties = faculty.Select(c => c.Name).ToList()
+                    Faculties = faculties.Select(c => c.Name).ToList()
                 }
             );
         }
