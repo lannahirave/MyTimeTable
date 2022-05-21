@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 using MyTimeTable.Models;
 
 namespace MyTimeTable;
 
-public partial class MyTimeTableContext : DbContext
+public class MyTimeTableContext : DbContext
 {
     public MyTimeTableContext()
     {
