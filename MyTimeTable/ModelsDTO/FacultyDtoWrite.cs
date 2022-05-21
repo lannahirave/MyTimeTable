@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+
 namespace MyTimeTable.ModelsDTO;
 
 public class FacultyDtoWrite
@@ -7,6 +8,7 @@ public class FacultyDtoWrite
     {
         GroupsIds = new List<int>();
     }
+
     public int Id { get; set; }
     [Required] public string Name { get; set; }
     [Required] public int OrganizationId { get; set; }
