@@ -30,7 +30,7 @@ public class ControlsController : ControllerBase
 
     // GET: api/Controls/5
     [HttpGet("{id}")]
-    public async Task<ActionResult<Control>> GetControl([FromRoute]int id)
+    public async Task<ActionResult<Control>> GetControl([FromRoute] int id)
     {
         var control = await _context.Controls.FindAsync(id);
 
@@ -69,7 +69,6 @@ public class ControlsController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Control>> PostControl(Control control)
     {
-
         var controlCheck = await _context.Controls.CountAsync(c => c.Type == control.Type);
         if (controlCheck > 0) return BadRequest("This control already exists.");
         _context.Controls.Add(control);
@@ -80,7 +79,7 @@ public class ControlsController : ControllerBase
 
     // DELETE: api/Controls/5
     [HttpDelete("{type}")]
-    public async Task<IActionResult> DeleteControl([FromRoute]string? type)
+    public async Task<IActionResult> DeleteControl([FromRoute] string? type)
     {
         if (type is null) return BadRequest("No type specified.");
         var controls = await _context.Controls.Where(c => c.Type == type).ToListAsync();
