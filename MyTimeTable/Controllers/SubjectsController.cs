@@ -1,11 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MyTimeTable;
 using MyTimeTable.Models;
 
 namespace MyTimeTable.Controllers;
@@ -30,7 +24,7 @@ public class SubjectsController : ControllerBase
         foreach (var subject in subjects)
         {
             var control = await _context.Controls.FindAsync(subject.ControlId);
-            subjectsDto.Add(new SubjectDto()
+            subjectsDto.Add(new SubjectDto
             {
                 Id = subject.Id,
                 Name = subject.Name,
@@ -40,6 +34,7 @@ public class SubjectsController : ControllerBase
                 ControlType = control!.Type
             });
         }
+
         return subjectsDto;
     }
 
@@ -50,21 +45,21 @@ public class SubjectsController : ControllerBase
         var subject = await _context.Subjects.FindAsync(id);
         if (subject == null) return NotFound();
         var control = await _context.Controls.FindAsync(subject.ControlId);
-        var subjectDto = new SubjectDto()
+        var subjectDto = new SubjectDto
         {
             Id = subject.Id,
             Name = subject.Name,
             Type = subject.Type,
             Hours = subject.Hours,
             ControlId = subject.ControlId,
-            ControlType = control!.Type 
+            ControlType = control!.Type
         };
         return subjectDto;
     }
 
     // PUT: api/Subjects/5
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutSubject([FromRoute]int? id, SubjectDto subjectDto)
+    public async Task<IActionResult> PutSubject([FromRoute] int? id, SubjectDto subjectDto)
     {
         if (id is null) return BadRequest("No id");
         var control = await _context.Controls.Where(e => e.Id == subjectDto.ControlId).ToListAsync();
@@ -76,7 +71,7 @@ public class SubjectsController : ControllerBase
         subject.Hours = subjectDto.Hours;
         subject.ControlId = subjectDto.ControlId;
         subject.Control = control.First();
-        
+
         _context.Entry(subject).State = EntityState.Modified;
         try
         {
@@ -86,8 +81,7 @@ public class SubjectsController : ControllerBase
         {
             if (!SubjectExists(id))
                 return NotFound();
-            else
-                throw;
+            throw;
         }
 
         return NoContent();
@@ -117,7 +111,7 @@ public class SubjectsController : ControllerBase
 
     // DELETE: api/Subjects/5
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteSubject([FromRoute]int id)
+    public async Task<IActionResult> DeleteSubject([FromRoute] int id)
     {
         var subject = await _context.Subjects.FindAsync(id);
         if (subject == null) return NotFound();

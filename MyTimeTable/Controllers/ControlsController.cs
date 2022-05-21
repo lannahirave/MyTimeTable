@@ -1,11 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MyTimeTable;
 using MyTimeTable.Models;
 
 namespace MyTimeTable.Controllers;
@@ -57,8 +51,7 @@ public class ControlsController : ControllerBase
         {
             if (!ControlExists(id))
                 return NotFound();
-            else
-                throw;
+            throw;
         }
 
         return NoContent();
