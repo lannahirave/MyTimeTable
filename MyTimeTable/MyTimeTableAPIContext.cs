@@ -32,14 +32,16 @@ public partial class MyTimeTableContext : DbContext
         base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<Control>(entity =>
         {
-            entity.Property(e => e.Id);
-            entity.Property(e => e.Type)
-                .HasMaxLength(255);
+            entity.Property(e => e.Id)
+                .UseIdentityColumn();
+            entity.HasIndex(e => e.Type)
+                .IsUnique();
         });
 
         modelBuilder.Entity<Subject>(entity =>
         {
-            entity.Property(e => e.Id);
+            entity.Property(e => e.Id)
+                .UseIdentityColumn();
             entity.Property(e => e.Name)
                 .HasMaxLength(255);
             entity.Property(e => e.Type)
@@ -59,7 +61,8 @@ public partial class MyTimeTableContext : DbContext
 
         modelBuilder.Entity<Lector>(entity =>
         {
-            entity.Property(e => e.Id);
+            entity.Property(e => e.Id)
+                .UseIdentityColumn();
             entity.Property(e => e.FullName)
                 .HasMaxLength(255);
             entity.Property(e => e.Phone);
@@ -92,7 +95,8 @@ public partial class MyTimeTableContext : DbContext
 
         modelBuilder.Entity<Group>(entity =>
             {
-                entity.Property(e => e.Id);
+                entity.Property(e => e.Id)
+                    .UseIdentityColumn();
                 entity.Property(e => e.Name)
                     .HasMaxLength(255);
                 entity.Property(e => e.Course);
@@ -112,14 +116,16 @@ public partial class MyTimeTableContext : DbContext
 
         modelBuilder.Entity<Organization>(entity =>
             {
-                entity.Property(e => e.Id);
-                entity.Property(e => e.Name)
-                    .HasMaxLength(255);
+                entity.Property(e => e.Id)
+                    .UseIdentityColumn();
+                entity.HasIndex(e => e.Name)
+                    .IsUnique();
             }
         );
         modelBuilder.Entity<TimeTable>(entity =>
             {
-                entity.Property(e => e.Id);
+                entity.Property(e => e.Id)
+                    .UseIdentityColumn();
                 entity.Property(e => e.Day)
                     .HasMaxLength(255);
                 entity.Property(e => e.Auditory);
