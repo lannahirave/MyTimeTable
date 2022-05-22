@@ -2,9 +2,9 @@
 
 namespace MyTimeTable.ModelsDTO;
 
-public class OrganizationDto
+public class OrganizationDtoWrite
 {
-    public OrganizationDto()
+    public OrganizationDtoWrite()
     {
         Faculties = new List<string>();
         FacultiesIds = new List<int>();

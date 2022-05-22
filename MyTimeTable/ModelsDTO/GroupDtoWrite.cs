@@ -8,8 +8,6 @@ public class GroupDtoWrite
     {
         TimetablesIds = new List<int>();
     }
-
-    public int Id { get; set; }
     [Required] public string Name { get; set; }
     [Required] public int Course { get; set; }
     [Required] public int Quantity { get; set; }

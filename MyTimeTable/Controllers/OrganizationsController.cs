@@ -56,16 +56,15 @@ public class OrganizationsController : ControllerBase
 
     // PUT: api/Organizations/5
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutOrganization([FromRoute] int? id, OrganizationDto organizationDto)
+    public async Task<IActionResult> PutOrganization([FromRoute] int? id, OrganizationDtoWrite organizationDtoWrite)
     {
         if (id is null) return BadRequest("No id");
         var organization = await _context.Organizations.FindAsync(id);
         if (organization is null) return NotFound("Bad id");
         var faculties = await _context.Faculties.Where(c =>
-                organizationDto.FacultiesIds != null && organizationDto.FacultiesIds.Contains(c.Id))
+                organizationDtoWrite.FacultiesIds != null && organizationDtoWrite.FacultiesIds.Contains(c.Id))
             .ToListAsync();
-
-        organization.Name = organizationDto.Name;
+        organization.Name = organizationDtoWrite.Name;
         organization.Faculties = faculties;
 
         _context.Entry(organization).State = EntityState.Modified;
@@ -86,11 +85,11 @@ public class OrganizationsController : ControllerBase
 
     // POST: api/Organizations
     [HttpPost]
-    public async Task<ActionResult<OrganizationDto>> PostOrganization(OrganizationDto organizationDto)
+    public async Task<ActionResult<OrganizationDtoWrite>> PostOrganization(OrganizationDtoWrite organizationDtoWrite)
     {
         var organization = new Organization
         {
-            Name = organizationDto.Name
+            Name = organizationDtoWrite.Name
         };
 
         _context.Organizations.Add(organization);
