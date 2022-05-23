@@ -7,7 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyTimeTable", "MyTimeTable\
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{399C5EE5-28E1-44BB-8119-52C0391469C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApi", "TestApi\TestApi.csproj", "{ACD11EDE-B5B6-4A4F-AC0C-5C2727EB4175}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyTimeTable.Tests", "MyTimeTable.Tests\MyTimeTable.Tests.csproj", "{44A38421-2DDD-4958-B389-A1F53155EAD3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{BA42678B-FE18-4D1E-84A0-F70E94C9B9F1} = {BA42678B-FE18-4D1E-84A0-F70E94C9B9F1}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +26,10 @@ Global
 		{399C5EE5-28E1-44BB-8119-52C0391469C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{399C5EE5-28E1-44BB-8119-52C0391469C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{399C5EE5-28E1-44BB-8119-52C0391469C1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ACD11EDE-B5B6-4A4F-AC0C-5C2727EB4175}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ACD11EDE-B5B6-4A4F-AC0C-5C2727EB4175}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ACD11EDE-B5B6-4A4F-AC0C-5C2727EB4175}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ACD11EDE-B5B6-4A4F-AC0C-5C2727EB4175}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44A38421-2DDD-4958-B389-A1F53155EAD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44A38421-2DDD-4958-B389-A1F53155EAD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44A38421-2DDD-4958-B389-A1F53155EAD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44A38421-2DDD-4958-B389-A1F53155EAD3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
