@@ -1,0 +1,119 @@
+﻿<!DOCTYPE html>
+<html lang="uk-UA">
+<head>
+    <meta charset="UTF-8">
+    <title>Лектори - MyTimeTable</title>
+    <link rel="stylesheet" href="css/site.css" />
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            margin: 5;
+            background: linear-gradient(45deg, #49a09d, #5f2c82);
+            font-family: sans-serif;
+            font-weight: 100;
+            
+        }
+
+        .container {
+            display:inline;
+            transform: translate(-50%, -50%);
+        }
+
+        table {
+            width: 800px;
+            border-collapse: collapse;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        th,
+        td {
+            padding: 15px;
+            background-color: rgba(255,255,255,0.2);
+            color: #fff;
+        }
+
+        th {
+            text-align: left;
+        }
+
+        thead {
+        th {
+            background-color: #55608f;
+        }
+        }
+
+        tbody {
+        tr {
+        &:hover {
+             background-color: rgba(255,255,255,0.3);
+         }
+        }
+        td {
+            position: relative;
+        &:hover {
+        &:before {
+             content: "";
+             position: absolute;
+             left: 0;
+             right: 0;
+             top: -9999px;
+             bottom: -9999px;
+             background-color: rgba(255,255,255,0.2);
+             z-index: -1;
+         }
+        }
+        }
+        }
+    </style>
+</head>
+<body>
+<h1>Лектори</h1>
+<h3>Додати</h3>
+<form action="javascript:void(0);" method="POST" onsubmit="addLector()">
+    <input type="text" id="add-FullName" placeholder="Новий викладач">
+    <input type="tel" id="add-Phone" placeholder="Номер телефону">
+    <input type="text" id="add-Degree" placeholder="Ступінь">
+    <input type="text" id="add-Orgs" placeholder="Організації">
+    <input type="submit" value="Додати">
+</form>
+
+<div id="editLector" style="display: none">
+    <h3>Редагувати</h3>
+    <form action="javascript:void(0);" onsubmit="updateLector()">
+        <input type="hidden" id="edit-Id">
+        <input type="text" id="edit-FullName" placeholder="ФІО">
+        <input type="tel" id="edit-Phone" placeholder="Телефон">
+        <input type="text" id="edit-Degree" placeholder="Ступінь">
+        <input type="text" id="edit-Orgs" placeholder="Ід організацій">
+        <input type="submit" value="Зберігти">
+        <a onclick="closeInput()" aria-label="Close">&#10006;</a>
+    </form>
+</div>
+
+<p id="counter"></p>
+
+<table class="container">
+    <tr>
+        <th>ID</th>
+        <th>Повне ім'я</th>
+        <th>Номер</th>
+        <th>Ступінь</th>
+        <th>Організації</th>
+        <th></th>
+        <th></th>
+    </tr>
+    <tbody id="lectors"></tbody>
+</table>
+
+<script src="js/lab2.js" asp-append-version="true"></script>
+<script type="text/javascript">
+    getLectors();
+</script>
+
+</body>
+</html>

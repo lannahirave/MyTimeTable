@@ -47,13 +47,25 @@ public class LectorsController : ControllerBase
 
     // GET: api/Lectors/5
     [HttpGet("{id}")]
-    public async Task<ActionResult<Lector>> GetLector(int id)
+    public async Task<ActionResult<LectorDtoRead>> GetLector(int id)
     {
-        var lector = await _context.Lectors.FindAsync(id);
+        var lector = await _context.Lectors.Where(c=> c.Id == id).Include(d=>d.Organizations)
+            .FirstOrDefaultAsync();
 
         if (lector == null) return NotFound();
 
-        return lector;
+        var organizationsIds = lector.Organizations.Select(d => d.Id).ToList();
+        var organizations = lector.Organizations.Select(d => d.Name).ToList();
+        var lectorDtoRead = new LectorDtoRead()
+        {
+            Id = lector.Id,
+            Degree = lector.Degree,
+            FullName = lector.FullName,
+            Phone = lector.Phone,
+            OrganizationsIds = organizationsIds,
+            Organizations = organizations
+        };
+        return lectorDtoRead;
     }
 
     // PUT: api/Lectors/5
@@ -105,15 +117,15 @@ public class LectorsController : ControllerBase
     public async Task<ActionResult<Lector>> PostLector(LectorsDtoWrite lectorsDtoWrite)
     {
         if (lectorsDtoWrite.OrganizationsIds != null && !lectorsDtoWrite.OrganizationsIds.Any()) return NotFound("No organization id.");
-        var organization = await _context.Organizations
+        var organizations = await _context.Organizations
             .Where( c=> lectorsDtoWrite.OrganizationsIds.Contains(c.Id)).ToListAsync();
-        if (!organization.Any()) return NotFound("Bad organization id(s)");
+        if (!organizations.Any()) return NotFound("Bad organization id(s)");
         var lector = new Lector()
         {
             FullName = lectorsDtoWrite.FullName,
             Phone = lectorsDtoWrite.Phone,
             Degree = lectorsDtoWrite.Degree,
-            Organizations = organization
+            Organizations = organizations
         };
         _context.Lectors.Add(lector);
         await _context.SaveChangesAsync();
