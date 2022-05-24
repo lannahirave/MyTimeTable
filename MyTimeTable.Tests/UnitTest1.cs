@@ -71,10 +71,8 @@ namespace MyTimeTable.Tests
         [Fact]
         static void Test2()
         {
-            
-            
+            // CHECK IF LECTORS GET METHOD WORKS
             var statusCode = GetLectorsAsync().Result;
-            
             Assert.Equal(HttpStatusCode.OK, statusCode);
         }
     }

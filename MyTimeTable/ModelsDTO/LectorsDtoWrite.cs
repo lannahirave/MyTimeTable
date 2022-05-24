@@ -4,6 +4,7 @@ namespace MyTimeTable.ModelsDTO;
 
 public class LectorsDtoWrite
 {
+    // FOR POST AND PUT METHODS COS WE CANT EXPLICITLY SET ORGANIZATION SO WE POST THEIRS IDS
     public LectorsDtoWrite()
     {
         OrganizationsIds = new List<int>();

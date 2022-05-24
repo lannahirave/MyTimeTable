@@ -11,10 +11,10 @@ COPY ["MyTimeTable/MyTimeTable.csproj", "MyTimeTable/"]
 RUN dotnet restore "MyTimeTable/MyTimeTable.csproj"
 COPY . .
 WORKDIR "/src/MyTimeTable"
-RUN dotnet build "MyTimeTable.csproj" -c Release -o /app/build
+RUN dotnet build "MyTimeTable.csproj" -c Debug -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "MyTimeTable.csproj" -c Release -o /app/publish
+RUN dotnet publish "MyTimeTable.csproj" -c Debug -o /app/publish
 
 FROM base AS final
 WORKDIR /app

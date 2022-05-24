@@ -11,10 +11,6 @@ builder.Services.AddDbContext<MyTimeTableContext>(option => option.UseSqlServer(
 ));
 builder.Services.AddControllersWithViews();
 var app = builder.Build();
-// using (var scope = app.Services.CreateScope())
-// {
-//     await scope.ServiceProvider.GetRequiredService<MyTimeTableContext>().Database.MigrateAsync();
-// }
 
 if (!app.Environment.IsDevelopment())
 {
