@@ -1,79 +1,67 @@
 using System;
 using System.Collections.Generic;
-using System.Net;
-using Xunit;
-using MyTimeTable;
-using Moq;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Threading.Tasks;
 using System.Net.Http.Json;
-using MyTimeTable.Models;
+using System.Threading.Tasks;
 using MyTimeTable.ModelsDTO;
+using Xunit;
 
-namespace MyTimeTable.Tests
+namespace MyTimeTable.Tests;
+
+public class LectorsControllerTests
 {
-    public class LectorsControllerTests
+    private static readonly HttpClient Client = new();
+    
+    public LectorsControllerTests()
     {
-        static HttpClient client = new HttpClient();
-        static LectorDtoRead? lector;
+        Client.DefaultRequestHeaders.Accept.Clear();
+        Client.DefaultRequestHeaders.Accept.Add(
+            new MediaTypeWithQualityHeaderValue("application/json"));
+    }
 
-        public LectorsControllerTests()
-        {
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
-        }
-        
-        static async Task<HttpStatusCode> CreateLectorAsync(LectorsDtoWrite lectorDtoWrite)
-        {
-            HttpResponseMessage response = await client.PostAsJsonAsync(
-                "https://localhost:7140/api/Lectors", lectorDtoWrite);
-            response.EnsureSuccessStatusCode();
+    private static async Task<Task<string>> CreateLectorAsync(LectorsDtoWrite lectorDtoWrite)
+    {
+        var response = await Client.PostAsJsonAsync(
+            "https://localhost:7140/api/Lectors/", lectorDtoWrite);
+        Console.WriteLine(response.ToString());
+        response.EnsureSuccessStatusCode();
 
-            // return URI of the created resource.
-            return response.StatusCode;
-        }
-        static async Task<HttpStatusCode> GetLectorsAsync()
-        {
-            HttpResponseMessage response = await client.GetAsync("https://localhost:7140/api/Lectors");
-            response.EnsureSuccessStatusCode();
-            // return URI of the created resource.
-            return response.StatusCode;
-        }
-        
-        
-        static async Task<HttpStatusCode> DeleteLectorAsync(int id)
-        {
-            HttpResponseMessage response = await client.DeleteAsync(
-                $"https://localhost:7140/api/Lectors/{id}");
-            return response.StatusCode;
-        }
+        // return URI of the created resource.
+        return response.Content.ReadAsStringAsync();
+    }
 
-        [Fact]
-        static void Test1()
-        {
+    private static async Task<Task<string>> GetLectorsAsync()
+    {
+        var response = await Client.GetAsync("https://localhost:7140/api/Lectors");
+        response.EnsureSuccessStatusCode();
+        // return URI of the created resource.
+        return response.Content.ReadAsStringAsync();
+    }
+    
 
-            // Create a new product
-            LectorsDtoWrite lectorDtoWrite = new LectorsDtoWrite()
-            {
-                FullName = "Gizmo",
-                Phone = 500348388,
-                Degree = "Widgets",
-                OrganizationsIds = new List<int>(){1}
-            };
-
-            var statusCode = CreateLectorAsync(lectorDtoWrite).Result;
-            
-            Assert.Equal(HttpStatusCode.OK, statusCode);
-        }
-        
-        [Fact]
-        static void Test2()
+    [Fact]
+    private static void Test1()
+    {
+        // Create a new product
+        var lectorDtoWrite = new LectorsDtoWrite
         {
-            // CHECK IF LECTORS GET METHOD WORKS
-            var statusCode = GetLectorsAsync().Result;
-            Assert.Equal(HttpStatusCode.OK, statusCode);
-        }
+            FullName = "Gizmo",
+            Phone = 500348388,
+            Degree = "Widgets",
+            OrganizationsIds = new List<int> {1}
+        };
+
+        var result = CreateLectorAsync(lectorDtoWrite).Result.Result;
+
+        Assert.True(result.StartsWith("{") && result.EndsWith("}"));
+    }
+
+    [Fact]
+    private static void Test2()
+    {
+        // CHECK IF LECTORS GET METHOD WORKS
+        var result = GetLectorsAsync().Result.Result;
+        Assert.True(result.StartsWith("[") && result.EndsWith("]"));
     }
 }
