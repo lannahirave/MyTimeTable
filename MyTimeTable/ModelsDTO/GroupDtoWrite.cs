@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace MyTimeTable.ModelsDTO;
+﻿namespace MyTimeTable.ModelsDTO;
 
 public class GroupDtoWrite
 {
@@ -8,10 +6,10 @@ public class GroupDtoWrite
     {
         TimetablesIds = new List<int>();
     }
-    [Required] public string Name { get; set; }
-    [Required] public int Course { get; set; }
-    [Required] public int Quantity { get; set; }
-    [Required] public int FacultyId { get; set; }
+    public string Name { get; set; }
+    public int Course { get; set; }
+    public int Quantity { get; set; }
+    public int FacultyId { get; set; }
     
     public ICollection<int>? TimetablesIds { get; set; }
 }

@@ -14,6 +14,7 @@ public class Subject
     [Required] public string Type { get; set; }
     [Required] public int Hours { get; set; }
     [Required] public int ControlId { get; set; }
-    [Display(Name = "Тип контролю")] public Control Control { get; set; }
+    [Display(Name = "Тип контролю")] 
+    public Control Control { get; set; }
     public ICollection<TimeTable> TimeTables { get; set; }
 }

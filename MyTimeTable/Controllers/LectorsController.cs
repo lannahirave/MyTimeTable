@@ -1,5 +1,3 @@
-using System.Diagnostics;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyTimeTable.Models;
@@ -94,7 +92,7 @@ public class LectorsController : ControllerBase
 
         lector.FullName = lectorsDtoWrite.FullName;
         lector.Degree = lectorsDtoWrite.Degree;
-        lector.Degree = lectorsDtoWrite.Degree;
+        lector.Phone = lectorsDtoWrite.Phone;
         
         _context.Entry(lector).State = EntityState.Modified;
         try

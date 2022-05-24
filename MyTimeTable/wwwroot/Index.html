@@ -74,7 +74,12 @@
 <body>
 <h1>Лектори</h1>
 <h3>Додати</h3>
-<form action="javascript:void(0);" method="POST" onsubmit="addLector()">
+<!-- форми для додавання лектора -->
+<form action="javascript:void(0);" method="POST" onsubmit="addLector()"> <!-- onsubmit="функціяДодавання()" -->
+    <!-- Головне в цих інпутах це type для перевірки введення,
+        вказати id відповідно до вашого класу,
+        placeholder показує початкову вказівку, що треба вводити в комірку
+    -->
     <input type="text" id="add-FullName" placeholder="Новий викладач">
     <input type="tel" id="add-Phone" placeholder="Номер телефону">
     <input type="text" id="add-Degree" placeholder="Ступінь">
@@ -82,37 +87,38 @@
     <input type="submit" value="Додати">
 </form>
 
-<div id="editLector" style="display: none">
+<!-- форма для редагування -->
+<div id="editLector" style="display: none"> <!-- display: none; приховує комірки при завантаженні -->
     <h3>Редагувати</h3>
-    <form action="javascript:void(0);" onsubmit="updateLector()">
-        <input type="hidden" id="edit-Id">
-        <input type="text" id="edit-FullName" placeholder="ФІО">
+    <form action="javascript:void(0);" onsubmit="updateLector()"> 
+        <input type="hidden" id="edit-Id"> <!-- type=hidden бо користувач не може міняти id -->
+        <input type="text" id="edit-FullName" placeholder="ФІО"> <!-- аналогічно формі додавання-->
         <input type="tel" id="edit-Phone" placeholder="Телефон">
         <input type="text" id="edit-Degree" placeholder="Ступінь">
         <input type="text" id="edit-Orgs" placeholder="Ід організацій">
         <input type="submit" value="Зберігти">
-        <a onclick="closeInput()" aria-label="Close">&#10006;</a>
+        <a onclick="closeInput()" aria-label="Close">&#10006;</a> <!-- кнопка для приховування редагування-->
     </form>
 </div>
 
 <p id="counter"></p>
 
-<table class="container">
+<table class="container"> <!-- Наша таблиця -->
     <tr>
         <th>ID</th>
         <th>Повне ім'я</th>
         <th>Номер</th>
         <th>Ступінь</th>
         <th>Організації</th>
-        <th></th>
+        <th></th> <!-- два стовпця для кнопок редагування та видалення-->
         <th></th>
     </tr>
     <tbody id="lectors"></tbody>
 </table>
 
-<script src="js/lab2.js" asp-append-version="true"></script>
+<script src="js/lab2.js" asp-append-version="true"></script> <!-- наш джс скрипт-->
 <script type="text/javascript">
-    getLectors();
+    getLectors(); // викликає для відображення лекторів
 </script>
 
 </body>

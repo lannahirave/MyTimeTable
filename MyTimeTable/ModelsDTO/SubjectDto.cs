@@ -1,13 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace MyTimeTable.Models;
+﻿namespace MyTimeTable.ModelsDTO;
 
 public class SubjectDto
 {
     public int Id { get; set; }
-    [Required] public string Name { get; set; }
-    [Required] public string Type { get; set; }
-    [Required] public int Hours { get; set; }
-    [Required] public int ControlId { get; set; }
+    public string Name { get; set; }
+    public string Type { get; set; }
+    public int Hours { get; set; }
+    public int ControlId { get; set; }
     public string? ControlType { get; set; }
 }

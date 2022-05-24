@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyTimeTable.Models;
+using MyTimeTable.ModelsDTO;
 
 namespace MyTimeTable.Controllers;
 
@@ -59,17 +60,17 @@ public class SubjectsController : ControllerBase
 
     // PUT: api/Subjects/5
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutSubject([FromRoute] int? id, SubjectDto subjectDto)
+    public async Task<IActionResult> PutSubject([FromRoute] int? id, SubjectDtoWrite subjectDtoWrite)
     {
         if (id is null) return BadRequest("No id");
-        var control = await _context.Controls.Where(e => e.Id == subjectDto.ControlId).ToListAsync();
+        var control = await _context.Controls.Where(e => e.Id == subjectDtoWrite.ControlId).ToListAsync();
         if (control.Count == 0) return BadRequest("Bad ControlId");
         var subject = await _context.Subjects.FindAsync(id);
         if (subject is null) return BadRequest("Bad id");
-        subject.Name = subjectDto.Name;
-        subject.Type = subjectDto.Type;
-        subject.Hours = subjectDto.Hours;
-        subject.ControlId = subjectDto.ControlId;
+        subject.Name = subjectDtoWrite.Name;
+        subject.Type = subjectDtoWrite.Type;
+        subject.Hours = subjectDtoWrite.Hours;
+        subject.ControlId = subjectDtoWrite.ControlId;
         subject.Control = control.First();
 
         _context.Entry(subject).State = EntityState.Modified;

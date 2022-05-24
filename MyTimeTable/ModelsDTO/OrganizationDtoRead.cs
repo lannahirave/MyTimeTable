@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace MyTimeTable.ModelsDTO;
+﻿namespace MyTimeTable.ModelsDTO;
 
 public class OrganizationDtoRead
 {
@@ -10,6 +8,6 @@ public class OrganizationDtoRead
     }
 
     public int Id { get; set; }
-    [Required] public string Name { get; set; }
+    public string Name { get; set; }
     public ICollection<string>? Faculties { get; set; }
 }
