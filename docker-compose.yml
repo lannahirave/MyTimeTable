@@ -15,7 +15,7 @@ services:
         - ASPNETCORE_URLS=https://+:443;http://+:80
         - ConnectionStrings:DefaultConnection=Server=sqlserverService;Initial Catalog=MyTimeTable;User=sa;Password=Krolebord123!;Trusted_Connection=False;MultipleActiveResultSets=true
     ports:
-        - "4438:80"
+        - "4438:80" 
         - "4439:443"
   sqlserverService:
     image: mcr.microsoft.com/mssql/server:latest

@@ -3,9 +3,13 @@ let lectors = []; // глобальна змінна для зберігання
 
 function getLectors() {
     fetch(uri) // звертається до апі, щоб отримати усіх лекторів
-        .then(response => response.json())// перетворює на json
+        .then(response => {
+            if(!response.ok){ // перевіряє чи все ок з запросом
+                return response.text().then(text => { throw new Error(text) })} // якщо ні, кидає експешн
+            document.getElementById('errorDB').innerHTML = "";
+            return response.json();}) // повертає джсон
         .then(data => _displayLectors(data))  // викликає функцію для виведення та збереження лекторів
-        .catch(error => console.error('Unable to get lectors.', error));
+        .catch(error => document.getElementById('errorDB').innerHTML = error.toString());
 }
 
 function addLector() {
@@ -31,7 +35,11 @@ function addLector() {
         },
         body: JSON.stringify(lector)
     })
-        .then(response => response.json())
+        .then(response => {
+            if(!response.ok){ // перевіряє чи все ок з запросом
+                return response.text().then(text => { throw new Error(text) })} // якщо ні, кидає експешн
+            document.getElementById('errorDB').innerHTML = "";
+            return response.json();}) // повертає джсон
         .then(() => {
             getLectors(); // отримує нових лекторів
             addNameTextbox.value = ''; //очищає комірки інпутів
@@ -39,7 +47,7 @@ function addLector() {
             addDegreeTextbox.value = '';
             addOrgsTextbox.value = '';
         })
-        .catch(error => console.error('Unable to add lector.', error));
+        .catch(error => document.getElementById('errorDB').innerHTML = error.toString());
 }
 
 function deleteLector(id) {
@@ -48,13 +56,16 @@ function deleteLector(id) {
         method: 'DELETE'
     })
         .then(() => getLectors())
-        .catch(error => console.error('Unable to delete lector.', error));
+        .catch(error => document.getElementById('errorDB').innerHTML = error.toString());
 }
 
 function displayEditForm(id) {
     // пошук за id лектора
     const lector = lectors.find(lector => lector.id === id);
     // вставляє дані в форми
+    // УВАГА УВАГА
+    // ТРЕБА ПИСАТИ lector.phone, а не lector.Phone як зазначено в классах, для перевірки, запустіть гет запрос
+    // і подивіться як він повертає (зазвичай, перша літера стає маленькою)
     document.getElementById('edit-Id').value = lector.id;
     document.getElementById('edit-FullName').value = lector.fullName;
     document.getElementById('edit-Phone').value = lector.phone;
@@ -87,9 +98,14 @@ function updateLector() {
         },
         body: JSON.stringify(lector)
     })
+        .then(response => {
+            if(!response.ok){ // перевіряє чи запрос повернув помилку
+                return response.text().then(text => { throw new Error(text) })} // якщо ні, кидає експешн
+            document.getElementById('errorDB').innerHTML = "";
+            return getLectors();})
         .then(() => getLectors())
         // запрос змін
-        .catch(error => console.error('Unable to update lector.', error));
+        .catch(error => document.getElementById('errorDB').innerHTML = error.toString());
 
     closeInput(); // приховує поле змін
 
@@ -99,6 +115,7 @@ function updateLector() {
 function closeInput() {
     // приховує елемент з редагуванням лектора
     document.getElementById('editLector').style.display = 'none';
+    document.getElementById('errorDB').innerHTML='';
 }
 
 
@@ -127,11 +144,12 @@ function _displayLectors(data) {
         // УВАГА УВАГА
         // ТРЕБА ПИСАТИ lector.phone, а не lector.Phone як зазначено в классах, для перевірки, запустіть гет запрос
         // і подивіться як він повертає (зазвичай, перша літера стає маленькою)
+        
         let td0  = tr.insertCell(0); //tr.InsertCell(int) вставляє в указану комірку (починаючи з 0) дані
-        let textNodeId = document.createTextNode(lector.id);
+        let textNodeId = document.createTextNode(lector.id); 
         td0.appendChild(textNodeId);
         
-        let td1 = tr.insertCell(1);
+        let td1 = tr.insertCell(1); // комірка залежить від вашого <th> в таблиці
         let textNodeFullName = document.createTextNode(lector.fullName);
         td1.appendChild(textNodeFullName);
 
@@ -158,3 +176,4 @@ function _displayLectors(data) {
 
     lectors = data; // вносимо дані в змінну
 }
+

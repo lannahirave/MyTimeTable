@@ -1,4 +1,6 @@
-﻿namespace MyTimeTable.ModelsDTO;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace MyTimeTable.ModelsDTO;
 
 public class FacultyDtoWrite
 {
@@ -6,7 +8,7 @@ public class FacultyDtoWrite
     {
         GroupsIds = new List<int>();
     }
-    public string Name { get; set; }
-    public int OrganizationId { get; set; }
+    [Required]public string Name { get; set; }
+    [Required]public int OrganizationId { get; set; }
     public ICollection<int>? GroupsIds { get; set; }
 }

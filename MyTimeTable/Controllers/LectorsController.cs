@@ -79,14 +79,14 @@ public class LectorsController : ControllerBase
         if (organizationsIds.Count() != 0)
         {
             var organizationsToDelete = await _context.OrganizationsLectors
-                .Where(c => c.LectorId == id).ToListAsync();
+                .Where(c => (c.LectorId == id && !organizationsIds.Contains(c.OrganizationId))).ToListAsync();
+            var organizations = await _context.Organizations
+                .Where(c => organizationsIds.Contains(c.Id)).ToListAsync();
+            if (!organizations.Any()) return Problem("BAD ORGS IDS");
             foreach (var organizationToDelete in organizationsToDelete)
             {
                 _context.OrganizationsLectors.Remove(organizationToDelete);
             }
-            await _context.SaveChangesAsync();
-            var organizations = await _context.Organizations
-                .Where(c => organizationsIds.Contains(c.Id)).ToListAsync();
             lector.Organizations = organizations;
         }
 

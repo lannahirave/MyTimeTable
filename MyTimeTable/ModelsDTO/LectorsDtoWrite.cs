@@ -9,10 +9,10 @@ public class LectorsDtoWrite
     {
         OrganizationsIds = new List<int>();
     }
-    public string FullName { get; set; }
-    [DataType(DataType.PhoneNumber, ErrorMessage = "Має бути номером телефону.")]
+    [Required]public string FullName { get; set; }
+    [Required][DataType(DataType.PhoneNumber, ErrorMessage = "Має бути номером телефону.")]
     public int Phone { get; set; }
-    public string Degree { get; set; }
+    [Required]public string Degree { get; set; }
     public ICollection<int>? OrganizationsIds { get; set; }
 
 }

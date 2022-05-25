@@ -1,67 +1,55 @@
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Net.Http.Json;
+﻿using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using MyTimeTable.Controllers;
 using MyTimeTable.ModelsDTO;
 using Xunit;
 
 namespace MyTimeTable.Tests;
 
-public class LectorsControllerTests
+public class UnitTest1
 {
-    private static readonly HttpClient Client = new();
+    private static MyTimeTableContext CreateContext()
+    {
+        // створюємо підроброблений (мок) контекст для передавання в контроллер
+        var options = new DbContextOptionsBuilder<MyTimeTableContext>().UseInMemoryDatabase(databaseName: "MyTimeTable")
+            .Options;
+        MyTimeTableContext abc = new MyTimeTableContext(options);
+        return abc;
+
+    } 
     
-    public LectorsControllerTests()
-    {
-        Client.DefaultRequestHeaders.Accept.Clear();
-        Client.DefaultRequestHeaders.Accept.Add(
-            new MediaTypeWithQualityHeaderValue("application/json"));
-    }
-
-    private static async Task<Task<string>> CreateLectorAsync(LectorsDtoWrite lectorDtoWrite)
-    {
-        var response = await Client.PostAsJsonAsync(
-            "https://localhost:7140/api/Lectors/", lectorDtoWrite);
-        Console.WriteLine(response.ToString());
-        response.EnsureSuccessStatusCode();
-
-        // return URI of the created resource.
-        return response.Content.ReadAsStringAsync();
-    }
-
-    private static async Task<Task<string>> GetLectorsAsync()
-    {
-        var response = await Client.GetAsync("https://localhost:7140/api/Lectors");
-        response.EnsureSuccessStatusCode();
-        // return URI of the created resource.
-        return response.Content.ReadAsStringAsync();
-    }
-    
-
     [Fact]
-    private static void Test1()
+    public async Task CreateOrganization()
     {
-        // Create a new product
-        var lectorDtoWrite = new LectorsDtoWrite
+        //Створює організацію
+        //ARRANGE
+        using var context = CreateContext();
+        OrganizationsController organizationsController = new OrganizationsController(context);
+        
+        //ACT
+        OrganizationDtoWrite organization = new OrganizationDtoWrite()
         {
-            FullName = "Gizmo",
-            Phone = 500348388,
-            Degree = "Widgets",
-            OrganizationsIds = new List<int> {1}
+            Name = "КНЛУ"
         };
-
-        var result = CreateLectorAsync(lectorDtoWrite).Result.Result;
-
-        Assert.True(result.StartsWith("{") && result.EndsWith("}"));
+        var result  = await organizationsController.PostOrganization(organization);
+        
+        //ASSERT
+        Assert.True(result.Result is RedirectToActionResult);
     }
-
     [Fact]
-    private static void Test2()
+    public async Task OrganizationValidation()
     {
-        // CHECK IF LECTORS GET METHOD WORKS
-        var result = GetLectorsAsync().Result.Result;
-        Assert.True(result.StartsWith("[") && result.EndsWith("]"));
+        // перевіряє, чи буде помилка валідації, якщо передамо неправильний об'єкт до POST методу
+        //ARRANGE
+        using var context = CreateContext();
+        OrganizationsController organizationsController = new OrganizationsController(context);
+        
+        //ACT
+        OrganizationDtoWrite organization = new OrganizationDtoWrite();
+        
+        //ASSERT
+        await Assert.ThrowsAnyAsync<Exception>(async () => await organizationsController.PostOrganization(organization));
     }
 }
